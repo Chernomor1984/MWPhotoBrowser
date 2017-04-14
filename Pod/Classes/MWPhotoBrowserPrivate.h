@@ -38,7 +38,6 @@
     MBProgressHUD *_progressHUD;
     
     // Grid
-    MWGridViewController *_gridController;
     UIBarButtonItem *_gridPreviousLeftNavItem;
     UIBarButtonItem *_gridPreviousRightNavItem;
     
@@ -76,6 +75,7 @@
 
 // Properties
 @property (nonatomic) UIActivityViewController *activityViewController;
+@property (nonatomic, strong, readonly) MWGridViewController *gridController;
 
 // Layout
 - (void)layoutVisiblePages;
