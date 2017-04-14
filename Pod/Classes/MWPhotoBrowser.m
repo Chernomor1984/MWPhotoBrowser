@@ -635,14 +635,15 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 }
 
 - (NSUInteger)numberOfPhotos {
-    if (_photoCount == NSNotFound) {
-        if ([_delegate respondsToSelector:@selector(numberOfPhotosInPhotoBrowser:)]) {
-            _photoCount = [_delegate numberOfPhotosInPhotoBrowser:self];
-        } else if (_fixedPhotosArray) {
-            _photoCount = _fixedPhotosArray.count;
-        }
+    if ([_delegate respondsToSelector:@selector(numberOfPhotosInPhotoBrowser:)]) {
+        _photoCount = [_delegate numberOfPhotosInPhotoBrowser:self];
+    } else if (_fixedPhotosArray) {
+        _photoCount = _fixedPhotosArray.count;
     }
-    if (_photoCount == NSNotFound) _photoCount = 0;
+    
+    if (_photoCount == NSNotFound){
+        _photoCount = 0;
+    }
     return _photoCount;
 }
 
