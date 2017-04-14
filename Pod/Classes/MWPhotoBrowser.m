@@ -601,8 +601,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     return _currentPageIndex;
 }
 
-- (void)reloadData {
-    
+- (void)refetchData {
     // Reset
     _photoCount = NSNotFound;
     
@@ -615,13 +614,17 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [_photos addObject:[NSNull null]];
         [_thumbPhotos addObject:[NSNull null]];
     }
-
+    
     // Update current page index
     if (numberOfPhotos > 0) {
         _currentPageIndex = MAX(0, MIN(_currentPageIndex, numberOfPhotos - 1));
     } else {
         _currentPageIndex = 0;
     }
+}
+
+- (void)reloadData {
+    [self refetchData];
     
     // Update layout
     if ([self isViewLoaded]) {
