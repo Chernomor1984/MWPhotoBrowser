@@ -150,6 +150,7 @@
 
 - (void)setSelectionMode:(BOOL)selectionMode {
     _selectionMode = selectionMode;
+    _selectedButton.hidden = !selectionMode;
 }
 
 - (void)setIsSelected:(BOOL)isSelected {
