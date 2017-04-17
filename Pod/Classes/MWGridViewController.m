@@ -173,6 +173,13 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (_selectionMode){
+        MWGridCell *cell = (MWGridCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        cell.isSelected = !cell.isSelected;
+        [_browser setPhotoSelected:cell.isSelected atIndex:indexPath.row];
+        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        return;
+    }
     [_browser setCurrentPhotoIndex:indexPath.row];
     [_browser hideGrid];
 }
