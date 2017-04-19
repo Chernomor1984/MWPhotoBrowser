@@ -1375,9 +1375,12 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
     
     // Position prior to hide animation
+    id scrollDelegate = _pagingScrollView.delegate;
+    _pagingScrollView.delegate = nil;
     CGRect newPagingFrame = [self frameForPagingScrollView];
     newPagingFrame = CGRectOffset(newPagingFrame, 0, (self.startOnGrid ? 1 : -1) * newPagingFrame.size.height);
     _pagingScrollView.frame = newPagingFrame;
+    _pagingScrollView.delegate = scrollDelegate;
     
     // Remember and remove controller now so things can detect a nil grid controller
     MWGridViewController *tmpGridController = _gridController;
