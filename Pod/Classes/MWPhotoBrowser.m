@@ -1081,6 +1081,12 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 	[self updateNavigation];
 }
 
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    if ([self.delegate respondsToSelector:@selector(photoBrowserDidEndScrollingAnimation:)]){
+        [self.delegate photoBrowserDidEndScrollingAnimation:self];
+    }
+}
+
 #pragma mark - Navigation
 
 - (void)updateNavigation {
@@ -1123,6 +1129,18 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         _actionButton.tintColor = nil;
     }
 	
+}
+
+- (void)showPageAtIndex:(NSUInteger)index {
+    // Change page
+    if (index < [self numberOfPhotos]) {
+        CGRect pageFrame = [self frameForPageAtIndex:index];
+        [_pagingScrollView scrollRectToVisible:pageFrame animated:YES];
+        [self tilePages];
+        [self updateNavigation];
+    }
+    // Update timer to give more time
+    [self hideControlsAfterDelay];
 }
 
 - (void)jumpToPageAtIndex:(NSUInteger)index animated:(BOOL)animated {
