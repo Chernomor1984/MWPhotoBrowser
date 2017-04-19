@@ -292,7 +292,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     
     // Content offset
 	_pagingScrollView.contentOffset = [self contentOffsetForPageAtIndex:_currentPageIndex];
-    [self tilePages];
+//    [self tilePages];
     _performingLayout = NO;
     
 }
@@ -1131,6 +1131,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 	if (index < [self numberOfPhotos]) {
 		CGRect pageFrame = [self frameForPageAtIndex:index];
         [_pagingScrollView setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:animated];
+        [self tilePages];
 		[self updateNavigation];
 	}
 	
