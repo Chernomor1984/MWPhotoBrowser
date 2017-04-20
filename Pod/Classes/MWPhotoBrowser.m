@@ -623,6 +623,16 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
 }
 
+- (void)reloadPagingScrollView {
+    if (_currentPageIndex > 0){
+        _currentPageIndex--;
+    }
+    _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
+    CGRect pageFrame = [self frameForPageAtIndex:_currentPageIndex];
+    [_pagingScrollView setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:NO];
+    [self tilePages];
+}
+
 - (void)reloadData {
     [self refetchData];
     

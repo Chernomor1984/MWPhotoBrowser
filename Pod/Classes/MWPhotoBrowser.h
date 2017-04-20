@@ -76,5 +76,6 @@
 - (void)showPreviousPhotoAnimated:(BOOL)animated;
 
 - (void)showPageAtIndex:(NSUInteger)index;
+- (void)reloadPagingScrollView;
 
 @end
