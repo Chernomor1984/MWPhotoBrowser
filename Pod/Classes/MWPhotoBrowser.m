@@ -595,6 +595,15 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
 }
 
+#pragma mark - Private
+
+- (void)resizePagingScrollView {
+    _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
+    CGRect pageFrame = [self frameForPageAtIndex:_currentPageIndex];
+    [_pagingScrollView setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:NO];
+    [self tilePages];
+}
+
 #pragma mark - Data
 
 - (NSUInteger)currentIndex {
@@ -621,16 +630,15 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     } else {
         _currentPageIndex = 0;
     }
+    [self resizePagingScrollView];
 }
 
 - (void)reloadPagingScrollView {
-    if (_currentPageIndex > 0){
+    if (_currentPageIndex > 0 && !_leftScrollDirection){
         _currentPageIndex--;
     }
-    _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
-    CGRect pageFrame = [self frameForPageAtIndex:_currentPageIndex];
-    [_pagingScrollView setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:NO];
-    [self tilePages];
+    _leftScrollDirection = NO;
+    [self resizePagingScrollView];
 }
 
 - (void)reloadData {
@@ -1144,6 +1152,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 - (void)showPageAtIndex:(NSUInteger)index {
     // Change page
     if (index < [self numberOfPhotos]) {
+        _leftScrollDirection = (_currentPageIndex > index);
         CGRect pageFrame = [self frameForPageAtIndex:index];
         [_pagingScrollView scrollRectToVisible:pageFrame animated:YES];
         [self tilePages];

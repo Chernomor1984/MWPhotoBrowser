@@ -71,6 +71,7 @@
     BOOL _viewHasAppearedInitially;
     CGPoint _currentGridContentOffset;
     
+    BOOL _leftScrollDirection;
 }
 
 // Properties
