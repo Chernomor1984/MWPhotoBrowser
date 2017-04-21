@@ -613,6 +613,8 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 - (void)refetchData {
     // Reset
     _photoCount = NSNotFound;
+    [_visiblePages removeAllObjects];
+    [_recycledPages removeAllObjects];
     
     // Get data
     NSUInteger numberOfPhotos = [self numberOfPhotos];
@@ -859,7 +861,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
             }
             
             // Add selected button
-            if (self.displaySelectionButtons) {
+            if (self.displaySelectionButtons && self.displaySinglePhotoSelectedButton) {
                 UIButton *selectedButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [selectedButton setImage:[UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ImageSelectedOff" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]] forState:UIControlStateNormal];
                 UIImage *selectedOnImage;

@@ -52,6 +52,7 @@
 @property (nonatomic) BOOL startOnGrid;
 @property (nonatomic) BOOL autoPlayOnAppear;
 @property (nonatomic, assign) BOOL doneButtonIsHidden;
+@property (nonatomic, assign) BOOL displaySinglePhotoSelectedButton;
 @property (nonatomic) NSUInteger delayToHideElements;
 @property (nonatomic, readonly) NSUInteger currentIndex;
 
