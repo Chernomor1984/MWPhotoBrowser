@@ -153,21 +153,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MWGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GridCell" forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[MWGridCell alloc] init];
-    }
-    id <MWPhoto> photo = [_browser thumbPhotoAtIndex:indexPath.row];
-    cell.photo = photo;
-    cell.gridController = self;
-    cell.selectionMode = _selectionMode;
-    cell.isSelected = [_browser photoIsSelectedAtIndex:indexPath.row];
-    cell.index = indexPath.row;
     
-    UIImage *img = [_browser imageForPhoto:photo];
-    if (img) {
-        [cell displayImage];
-    } else {
-        [photo loadUnderlyingImageAndNotify];
+    if (!cell) {
+        cell = [MWGridCell new];
     }
     return cell;
 }
@@ -182,6 +170,22 @@
     }
     [_browser setCurrentPhotoIndex:indexPath.row];
     [_browser hideGrid];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(MWGridCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    id <MWPhoto> photo = [_browser thumbPhotoAtIndex:indexPath.row];
+    cell.photo = photo;
+    cell.gridController = self;
+    cell.selectionMode = _selectionMode;
+    cell.isSelected = [_browser photoIsSelectedAtIndex:indexPath.row];
+    cell.index = indexPath.row;
+    UIImage *img = [_browser imageForPhoto:photo];
+    
+    if (img) {
+        [cell displayImage];
+    } else {
+        [photo loadUnderlyingImageAndNotify];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
