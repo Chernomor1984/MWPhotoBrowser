@@ -1121,34 +1121,14 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 #pragma mark - Navigation
 
 - (void)updateNavigation {
-    
-	// Title
     NSUInteger numberOfPhotos = [self numberOfPhotos];
-    if (_gridController) {
-        if (_gridController.selectionMode) {
-            self.title = NSLocalizedString(@"Select Photos", nil);
-        } else {
-            NSString *photosText;
-            if (numberOfPhotos == 1) {
-                photosText = NSLocalizedString(@"photo", @"Used in the context: '1 photo'");
-            } else {
-                photosText = NSLocalizedString(@"photos", @"Used in the context: '3 photos'");
-            }
-            self.title = [NSString stringWithFormat:@"%lu %@", (unsigned long)numberOfPhotos, photosText];
-        }
-    } else if (numberOfPhotos > 1) {
-        if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
-            self.title = [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
-        } else {
-            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
-        }
-	} else {
-		self.title = nil;
-	}
-	
-	// Buttons
-	_previousButton.enabled = (_currentPageIndex > 0);
-	_nextButton.enabled = (_currentPageIndex < numberOfPhotos - 1);
+    UILabel *titleLabel = (UILabel *)self.navigationItem.titleView;
+    titleLabel.text = [self currentTitleWithPhotosNumber:numberOfPhotos];
+    self.title = [self currentTitleWithPhotosNumber:numberOfPhotos];
+    
+    // Buttons
+    _previousButton.enabled = (_currentPageIndex > 0);
+    _nextButton.enabled = (_currentPageIndex < numberOfPhotos - 1);
     
     // Disable action button if there is no image or it's a video
     MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
@@ -1159,7 +1139,35 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         _actionButton.enabled = YES;
         _actionButton.tintColor = nil;
     }
-	
+}
+
+- (NSString *)currentTitleWithPhotosNumber:(NSUInteger)numberOfPhotos {
+    NSUInteger lastDigit = numberOfPhotos % 10;
+    
+    // Title
+    if (_gridController) {
+        if (_gridController.selectionMode) {
+            return NSLocalizedString(@"Выберите фотографии", nil);
+        } else {
+            NSString *photosText;
+            
+            if (lastDigit == 1){
+                photosText = NSLocalizedString(@"фотография", nil);
+            } else if (lastDigit > 1 && lastDigit < 5){
+                photosText = NSLocalizedString(@"фотографии", nil);
+            } else {
+                photosText = NSLocalizedString(@"фотографий", nil);
+            }
+            return [NSString stringWithFormat:@"%lu %@", (unsigned long)numberOfPhotos, photosText];
+        }
+    } else if (numberOfPhotos > 1) {
+        if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
+            return [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
+        } else {
+            return [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex + 1), NSLocalizedString(@"из", nil), (unsigned long)numberOfPhotos];
+        }
+    }
+    return nil;
 }
 
 - (void)showPageAtIndex:(NSUInteger)index {
