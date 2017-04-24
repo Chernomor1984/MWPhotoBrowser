@@ -245,7 +245,18 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     // Left button - Grid
     if (_enableGrid) {
         hasItems = YES;
-        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/UIBarButtonItemGrid" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]] style:UIBarButtonItemStylePlain target:self action:@selector(showGridAnimated)]];
+        UIImage *image = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/UIBarButtonItemGrid"
+                                                ofType:@"png"
+                                              inBundle:[NSBundle bundleForClass:[self class]]];
+        UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithImage:image
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(showGridAnimated)];
+        if (self.tintColour){
+            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            barButtonItem.tintColor = self.tintColour;
+        }
+        [items addObject:barButtonItem];
     } else {
         [items addObject:fixedSpace];
     }
