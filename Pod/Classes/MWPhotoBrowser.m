@@ -1120,8 +1120,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 #pragma mark - Navigation
 
-- (void)updateNavigation {
-    NSUInteger numberOfPhotos = [self numberOfPhotos];
+- (void)updateNavigationWithNumberOfPhotos:(NSUInteger)numberOfPhotos {
     UILabel *titleLabel = (UILabel *)self.navigationItem.titleView;
     titleLabel.text = [self currentTitleWithPhotosNumber:numberOfPhotos];
     self.title = [self currentTitleWithPhotosNumber:numberOfPhotos];
@@ -1139,6 +1138,10 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         _actionButton.enabled = YES;
         _actionButton.tintColor = nil;
     }
+}
+
+- (void)updateNavigation {
+    [self updateNavigationWithNumberOfPhotos:[self numberOfPhotos]];
 }
 
 - (NSString *)currentTitleWithPhotosNumber:(NSUInteger)numberOfPhotos {

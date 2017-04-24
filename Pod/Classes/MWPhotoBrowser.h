@@ -80,5 +80,6 @@
 
 - (void)showPageAtIndex:(NSUInteger)index;
 - (void)reloadPagingScrollView;
+- (void)updateNavigationWithNumberOfPhotos:(NSUInteger)numberOfPhotos;
 
 @end
