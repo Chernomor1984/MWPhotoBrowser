@@ -1185,6 +1185,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [_pagingScrollView scrollRectToVisible:pageFrame animated:YES];
         [self tilePages];
         [self updateNavigation];
+    } else {
+        [self.delegate photoBrowserDidEndScrollingAnimation:self];
+        [self showGrid:YES];
     }
     // Update timer to give more time
     [self hideControlsAfterDelay];
